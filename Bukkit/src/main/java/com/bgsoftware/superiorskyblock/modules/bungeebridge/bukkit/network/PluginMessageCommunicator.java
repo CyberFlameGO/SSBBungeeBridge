@@ -1,7 +1,8 @@
 package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network;
 
 import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.SSBBungeeBridge;
-import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.packet.IPacketHandler;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.packet.out.IPacket;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.packet.in.IPacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -16,12 +17,13 @@ import java.util.List;
 public final class PluginMessageCommunicator implements PluginMessageListener {
 
     private static final String CHANNEL_NAME = "ssb:bungee";
-    private static final List<IPacketHandler> PACKET_HANDLERS = Arrays.asList();
 
     private final SSBBungeeBridge module;
+    private final List<IPacketHandler> packetHandlers;
 
     public PluginMessageCommunicator(SSBBungeeBridge module) {
         this.module = module;
+        this.packetHandlers = Arrays.asList();
     }
 
     @Override
@@ -32,7 +34,7 @@ public final class PluginMessageCommunicator implements PluginMessageListener {
         ByteArrayDataInput messageInput = ByteStreams.newDataInput(message);
 
         byte packetId = messageInput.readByte();
-        handlePacket(packetId, messageInput);
+        handlePacket(packetId, player, messageInput);
     }
 
     public void registerCommunicator() {
@@ -47,16 +49,21 @@ public final class PluginMessageCommunicator implements PluginMessageListener {
         plugin.getServer().getMessenger().unregisterOutgoingPluginChannel(plugin, CHANNEL_NAME);
     }
 
-    public void handlePacket(byte packetId, ByteArrayDataInput messageInput) {
-        if (packetId > PACKET_HANDLERS.size())
+    public void handlePacket(byte packetId, Player player, ByteArrayDataInput messageInput) {
+        if (packetId > packetHandlers.size())
             return;
 
-        PACKET_HANDLERS.get(packetId + 1).handlePacket(messageInput);
+        packetHandlers.get(packetId - 1).handlePacket(player, messageInput);
     }
 
-    public void sendPacket(Player player, ByteArrayDataOutput messageOutput) {
+    public void sendPacket(Player player, IPacket packet) {
         JavaPlugin plugin = this.module.getJavaPlugin();
-        player.sendPluginMessage(plugin, CHANNEL_NAME, messageOutput.toByteArray());
+
+        ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
+        dataOutput.writeByte(packet.getPacketId());
+        packet.serialize(dataOutput);
+
+        player.sendPluginMessage(plugin, CHANNEL_NAME, dataOutput.toByteArray());
     }
 
 }

@@ -3,6 +3,7 @@ package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
 import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
 import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.listener.SkyblockListener;
 import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.PluginMessageCommunicator;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,7 +36,7 @@ public final class SSBBungeeBridge extends PluginModule {
 
     @Override
     public Listener[] getModuleListeners(SuperiorSkyblock plugin) {
-        return new Listener[0];
+        return new Listener[] { new SkyblockListener(this) };
     }
 
     @Override
