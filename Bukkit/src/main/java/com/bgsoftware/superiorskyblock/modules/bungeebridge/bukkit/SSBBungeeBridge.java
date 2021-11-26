@@ -56,4 +56,8 @@ public final class SSBBungeeBridge extends PluginModule {
         return (JavaPlugin) getPlugin();
     }
 
+    public PluginMessageCommunicator getCommunicator() {
+        return communicator;
+    }
+
 }
