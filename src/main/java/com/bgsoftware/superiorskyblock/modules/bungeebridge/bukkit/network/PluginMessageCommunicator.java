@@ -1,7 +1,7 @@
-package com.bgsoftware.superiorskyblock.modules.bungeebridge.network;
+package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network;
 
-import com.bgsoftware.superiorskyblock.modules.bungeebridge.SSBBungeeBridge;
-import com.bgsoftware.superiorskyblock.modules.bungeebridge.network.packet.IPacketHandler;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.SSBBungeeBridge;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.packet.IPacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;

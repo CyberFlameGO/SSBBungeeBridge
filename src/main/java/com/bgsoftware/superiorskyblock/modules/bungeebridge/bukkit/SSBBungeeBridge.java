@@ -1,9 +1,9 @@
-package com.bgsoftware.superiorskyblock.modules.bungeebridge;
+package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
 import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
 import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
-import com.bgsoftware.superiorskyblock.modules.bungeebridge.network.PluginMessageCommunicator;
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.PluginMessageCommunicator;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,4 +1,4 @@
-package com.bgsoftware.superiorskyblock.modules.bungeebridge.database;
+package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.database;
 
 import com.bgsoftware.superiorskyblock.api.data.DatabaseBridge;
 import com.bgsoftware.superiorskyblock.api.data.DatabaseFilter;

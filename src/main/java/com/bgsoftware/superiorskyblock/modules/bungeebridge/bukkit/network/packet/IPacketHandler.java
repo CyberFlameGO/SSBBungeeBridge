@@ -1,4 +1,4 @@
-package com.bgsoftware.superiorskyblock.modules.bungeebridge.network.packet;
+package com.bgsoftware.superiorskyblock.modules.bungeebridge.bukkit.network.packet;
 
 import com.google.common.io.ByteArrayDataInput;
 
