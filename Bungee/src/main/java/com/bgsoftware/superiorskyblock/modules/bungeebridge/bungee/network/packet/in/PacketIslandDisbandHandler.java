@@ -6,11 +6,11 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 
-public final class PacketIslandCreateHandler implements IPacketHandler {
+public final class PacketIslandDisbandHandler implements IPacketHandler {
 
     private final SSBBungeeBridge plugin;
 
-    public PacketIslandCreateHandler(SSBBungeeBridge plugin) {
+    public PacketIslandDisbandHandler(SSBBungeeBridge plugin) {
         this.plugin = plugin;
     }
 
@@ -21,7 +21,7 @@ public final class PacketIslandCreateHandler implements IPacketHandler {
 
         UUID islandUUID = new UUID(uuidMSB, uuidLSB);
 
-        this.plugin.getStorage().addToIsland(proxiedPlayer.getUniqueId(), islandUUID);
+        this.plugin.getStorage().removeIsland(islandUUID);
     }
 
 }

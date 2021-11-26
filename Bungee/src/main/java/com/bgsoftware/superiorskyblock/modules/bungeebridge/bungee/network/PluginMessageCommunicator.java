@@ -12,6 +12,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -22,9 +23,9 @@ public final class PluginMessageCommunicator implements Listener {
     private final SSBBungeeBridge plugin;
     private final List<IPacketHandler> packetHandlers;
 
-    public PluginMessageCommunicator(SSBBungeeBridge plugin) {
+    public PluginMessageCommunicator(SSBBungeeBridge plugin, List<IPacketHandler> packetHandlers) {
         this.plugin = plugin;
-        this.packetHandlers = Arrays.asList(new PacketIslandCreateHandler(plugin));
+        this.packetHandlers = Collections.unmodifiableList(packetHandlers);
     }
 
     @EventHandler
