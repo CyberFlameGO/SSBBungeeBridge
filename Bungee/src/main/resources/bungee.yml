@@ -1,0 +1,4 @@
+name: SSBBungeeBridge
+main: com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee.SSBBungeeBridge
+version: ${project.version}
+author: Ome_R

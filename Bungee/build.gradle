@@ -1,0 +1,19 @@
+group 'Bungee'
+
+processResources {
+    outputs.upToDateWhen { false }
+    String versionNumber = System.getenv("BUILD_NUMBER") == null ? parent.version : parent.version + "." + System.getenv("BUILD_NUMBER")
+    eachFile { details ->
+        if (details.name.contentEquals('bungee.yml')) {
+            filter { String line ->
+                line.replace('${project.version}', versionNumber)
+            }
+        }
+    }
+}
+
+repositories {
+}
+
+dependencies {
+}

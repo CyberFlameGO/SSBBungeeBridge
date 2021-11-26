@@ -7,39 +7,37 @@ plugins {
 group 'SSBBungeeBridge'
 version = "1.0.0"
 
-repositories {
-    maven { url 'https://repo.bg-software.com/repository/nms/' }
-    maven { url 'https://repo.bg-software.com/repository/api/' }
-    maven { url 'https://repo.bg-software.com/repository/common/' }
-    maven { url 'https://repo.bg-software.com/repository/public-libs/' }
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
 
-    String mavenUsername = project.hasProperty('mavenUsername') ? project.mavenUsername : System.getenv('mavenUsername');
-    String mavenPassword = project.hasProperty('mavenPassword') ? project.mavenPassword : System.getenv('mavenPassword');
+    repositories {
+        String mavenUsername = project.hasProperty('mavenUsername') ? project.mavenUsername : System.getenv('mavenUsername');
+        String mavenPassword = project.hasProperty('mavenPassword') ? project.mavenPassword : System.getenv('mavenPassword');
 
-    if (mavenUsername != null && mavenPassword != null) {
-        maven {
-            url 'https://repo.bg-software.com/repository/private-libs/'
-            credentials {
-                username mavenUsername
-                password mavenPassword
+        if (mavenUsername != null && mavenPassword != null) {
+            maven {
+                url 'https://repo.bg-software.com/repository/private-libs/'
+                credentials {
+                    username mavenUsername
+                    password mavenPassword
+                }
             }
         }
     }
 
+    shadowJar {
+        archiveFileName = "${project.name}.jar"
+        destinationDirectory = file("../archive/")
+    }
+
+    build {
+        dependsOn shadowJar
+    }
 }
 
 dependencies {
     implementation fileTree("archive")
-
-    implementation 'com.bgsoftware.common.config:CommentedConfiguration:latest'
-
-    implementation 'com.zaxxer:HikariCP:latest'
-    implementation 'org.slf4j:SLF4J:latest'
-
-    // Spigot jars
-    compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
-
-    compileOnly 'com.bgsoftware:SuperiorSkyblockAPI:latest'
 }
 
 jar {
@@ -50,22 +48,8 @@ jar {
     }
 }
 
-processResources {
-    outputs.upToDateWhen { false }
-    String versionNumber = System.getenv("BUILD_NUMBER") == null ? version : version + "." + System.getenv("BUILD_NUMBER")
-    eachFile { details ->
-        if (details.name.contentEquals('plugin.yml')) {
-            filter { String line ->
-                line.replace('${project.version}', versionNumber)
-            }
-        }
-    }
-}
-
 shadowJar {
     dependsOn(jar)
-
-    relocate 'com.zaxxer.hikari', 'com.bgsoftware.superiorskyblock.libs.hikari'
 
     if (System.getenv("BUILD_NUMBER") == null) {
         archiveName = rootProject.name + "-" + version + ".jar"

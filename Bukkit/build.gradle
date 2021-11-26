@@ -1,0 +1,11 @@
+group 'Bukkit'
+
+repositories {
+    maven { url 'https://repo.bg-software.com/repository/nms/' }
+    maven { url 'https://repo.bg-software.com/repository/api/' }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
+    compileOnly 'com.bgsoftware:SuperiorSkyblockAPI:latest'
+}
