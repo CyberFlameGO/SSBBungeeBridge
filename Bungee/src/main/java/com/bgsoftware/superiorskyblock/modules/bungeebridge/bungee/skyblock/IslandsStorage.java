@@ -16,10 +16,28 @@ public final class IslandsStorage {
 
     }
 
-    public void addToIsland(UUID playerUUID, UUID islandUUID) {
-        Island island = this.islands.computeIfAbsent(islandUUID, Island::new);
+    public void removeIsland(UUID islandUUID) {
+        Island island = this.islands.remove(islandUUID);
+        if (island != null) {
+            for (UUID playerUUID : island.getPlayers())
+                this.playerIslands.remove(playerUUID);
+        }
+    }
+
+    public void createIsland(UUID islandUUID, UUID playerUUID, String serverName) {
+        Island island = new Island(islandUUID, serverName);
         island.addPlayer(playerUUID);
+
+        this.islands.put(islandUUID, island);
         this.playerIslands.put(playerUUID, island);
+    }
+
+    public void addToIsland(UUID playerUUID, UUID islandUUID) {
+        Island island = this.islands.get(islandUUID);
+        if(island != null) {
+            island.addPlayer(playerUUID);
+            this.playerIslands.put(playerUUID, island);
+        }
     }
 
     public void removeFromIsland(UUID playerUUID) {
@@ -31,14 +49,6 @@ public final class IslandsStorage {
 
     public Optional<Island> getIsland(ProxiedPlayer proxiedPlayer) {
         return Optional.ofNullable(this.playerIslands.get(proxiedPlayer.getUniqueId()));
-    }
-
-    public void removeIsland(UUID islandUUID) {
-        Island island = this.islands.remove(islandUUID);
-        if (island != null) {
-            for (UUID playerUUID : island.getPlayers())
-                this.playerIslands.remove(playerUUID);
-        }
     }
 
 }

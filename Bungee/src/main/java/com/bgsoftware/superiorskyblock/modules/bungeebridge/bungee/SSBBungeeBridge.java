@@ -1,5 +1,6 @@
 package com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee;
 
+import com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee.listener.PlayersListener;
 import com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee.network.PluginMessageCommunicator;
 import com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee.network.packet.in.PacketIslandCreateHandler;
 import com.bgsoftware.superiorskyblock.modules.bungeebridge.bungee.network.packet.in.PacketIslandDisbandHandler;
@@ -22,11 +23,16 @@ public final class SSBBungeeBridge extends Plugin {
     @Override
     public void onEnable() {
         this.communicator.registerCommunicator();
+        registerListeners();
     }
 
     @Override
     public void onDisable() {
         this.communicator.unregisterCommunicator();
+    }
+
+    private void registerListeners() {
+        getProxy().getPluginManager().registerListener(this, new PlayersListener(this));
     }
 
     public PluginMessageCommunicator getCommunicator() {
